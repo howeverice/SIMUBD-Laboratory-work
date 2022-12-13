@@ -1,0 +1,108 @@
+часть 2:
+SELECT * FROM librarydb.departament
+WHERE floor > 3;
+
+SELECT * FROM librarydb.departament
+WHERE NOT floor = 3;
+
+SELECT * FROM librarydb.departament
+WHERE NOT full_name_head = 'хирургия' AND stars > 3 OR country = 'нервология';
+
+SELECT * FROM librarydb.departament
+WHERE room_number*floor BETWEEN 1600 AND 2600;
+
+SELECT * FROM librarydb.departament
+WHERE full_name_head IN('хирургия', 'приемное отделение');
+
+SELECT * FROM librarydb.departament
+WHERE room_number BETWEEN 200 AND 400;
+
+SELECT * FROM librarydb.departament
+WHERE departament_name LIKE 'районная клиническая%';
+
+SELECT * FROM librarydb.departament
+WHERE departament_name IS NULL;
+
+3-я часть:
+
+SELECT * FROM doctor, patients;
+
+SELECT * FROM patients, doctor
+WHERE patients.idpatietns = doctor.name;
+
+SELECT * FROM doctor, departament, patients;
+
+SELECT * 
+FROM patients
+JOIN doctor;
+
+SELECT * 
+FROM doctor
+JOIN patients
+ON doctor.iddoctor = patients.idpatients;
+
+SELECT * 
+FROM doctor
+JOIN patients
+ON doctor.iddoctor = patients.idpatients
+
+SELECT name
+FROM patients
+UNION SELECT name
+FROM doctor;
+
+SELECT * 
+FROM doctor
+JOIN departament
+ON doctor.deparment = departament.iddepartament;
+
+SELECT patients.name, service_staff.disease_name
+FROM patients
+JOIN medical_history
+ON patients.idpatients = medical_history.patient
+JOIN service_staff
+ON medical_history.diagnosis = service_staff.idservice_staff
+WHERE NOT patients.name = 'Виктор';
+
+часть 4:
+
+SELECT COUNT(*) FROM patients;
+
+SELECT SUM(room_number)
+FROM departament;
+
+SELECT LOWER('Витя');
+SELECT UPPER('Витя');
+
+SELECT NOW();
+SELECT UTC_TIME();
+
+SELECT address, COUNT(*) AS idpatients
+FROM patients
+Group By address;
+
+SELECT address, city, COUNT(*) AS idpatients
+FROM patients
+Group By address,city;
+
+SELECT address, COUNT(*) AS idpatients
+FROM patients
+Group By address
+HAVING NOT address = 'Колесникова';
+
+SELECT * FROM librarydb.departament
+ORDER BY floor;
+
+INSERT patients(name, surname, patronymic, address,city,age, gender) 
+VALUES 
+('Лена', 'Болконская', 'Владимировна', 'Неманская', 'Минск', 22, 'женщина');
+
+UPDATE doctor
+SET work_expirience = work_expirience + 2;
+
+UPDATE doctor
+SET work_expirience = work_expirience + 3
+WHERE post = 'главный врач';
+
+DELETE FROM departament
+WHERE country ='районная поликлиника';
