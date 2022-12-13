@@ -1,0 +1,58 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_procedure`(current_name varchar(45))
+BEGIN
+DELETE FROM patients
+WHERE name = current_name;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_procedure`(idpatients int, name varchar(45), surname varchar(45),
+patronymic varchar(45), address varchar(45), city varchar(45), age varchar(45), gender varchar(45))
+BEGIN
+INSERT patients(idpatients, name, surname, patronymic, address,city,age, gender) 
+VALUES 
+(idpatients, name, surname, patronymic, address, city, age, gender);
+END
+
+CALL insert_procedure(5,'Витя','Евтушевский','Сергей','Колесникова','Минск','20','мужской');
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `out_procedure`(current_name varchar(45), out surname varchar(45), out patronymic varchar(45))
+BEGIN
+select patients.surname, patients.patronymic
+from librarydb.patients
+where patients.name = current_name;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `select2_procedure`()
+BEGIN
+SELECT departament_name, room_number, 
+CASE
+    WHEN full_name_head = 'хирургия'
+        THEN 'правят'
+    WHEN floor > 3 
+        THEN 'высоко'
+END AS Category
+FROM departament;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `select_procedure`()
+BEGIN
+SELECT * FROM librarydb.departament
+WHERE floor > 3;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_procedure`(work_experience int)
+BEGIN
+UPDATE doctor
+SET work_experience = work_experience;
+END
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `select_function`(return_date date) RETURNS varchar(3) CHARSET utf8mb3
+    DETERMINISTIC
+BEGIN
+DECLARE sf_value varchar(3);
+        IF curdate() > return_date
+            THEN SET sf_value = 'Yes';
+        ELSEIF  curdate() <= return_date
+            THEN SET sf_value = 'No';
+        END IF;
+     RETURN sf_value;
+END
